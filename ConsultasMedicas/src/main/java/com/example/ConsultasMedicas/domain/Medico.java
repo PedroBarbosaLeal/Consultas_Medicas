@@ -1,9 +1,8 @@
 package com.example.ConsultasMedicas.domain;
 
+import com.example.ConsultasMedicas.domain.Enum.Especialidade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,22 +13,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Paciente")
-public class Paciente {
+@Table(name = "Medico")
+public class Medico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_medico;
 
     @Column(unique = true)
-    @NotBlank(message = "Nome obritatório")
+    @NotBlank(message = "Nome Obrigatorio")
     private String nome;
 
     @Column(unique = true)
-    @Size(max = 11,min = 11,message = "CPF invalido")
-    @NotNull(message = "CPF obrigatório")
-    private String cpf;
+    @NotBlank(message = "CRM Obrigatorio")
+    private String crm;
 
-    @NotBlank(message = "Data de nascimento Obrigatoria")
-    private String dataDeNascimento;
+    @Enumerated(EnumType.STRING)
+    @NotBlank(message = "Especialidade Obrigatoria")
+    private Especialidade especialidade;
+
 }
