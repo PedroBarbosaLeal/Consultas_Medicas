@@ -1,6 +1,4 @@
 package com.example.ConsultasMedicas.infra;
-
-
 import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

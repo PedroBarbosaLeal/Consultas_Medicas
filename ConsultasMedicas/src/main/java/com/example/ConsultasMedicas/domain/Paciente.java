@@ -1,5 +1,6 @@
 package com.example.ConsultasMedicas.domain;
 
+import com.example.ConsultasMedicas.dto.AtualizarPaciente;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,4 +37,8 @@ public class Paciente {
     @NotNull(message = "Data de nascimento obrigatoria")
     @Past(message = "Você não nasceu no futuro kkk")
     private LocalDate dataDeNascimento;
+
+    public void atualizarPaciente(AtualizarPaciente dados){
+        this.nome = dados.nome();
+    }
 }
