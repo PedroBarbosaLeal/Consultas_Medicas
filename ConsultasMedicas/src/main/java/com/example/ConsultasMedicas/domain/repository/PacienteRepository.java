@@ -1,4 +1,4 @@
-package com.example.ConsultasMedicas.repository;
+package com.example.ConsultasMedicas.domain.repository;
 
 import com.example.ConsultasMedicas.domain.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
