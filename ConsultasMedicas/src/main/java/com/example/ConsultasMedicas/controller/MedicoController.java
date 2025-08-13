@@ -3,7 +3,6 @@ package com.example.ConsultasMedicas.controller;
 import com.example.ConsultasMedicas.domain.Medico;
 import com.example.ConsultasMedicas.dto.AtualizarMedico;
 import com.example.ConsultasMedicas.service.MedicoService;
-import com.example.ConsultasMedicas.service.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,5 +45,11 @@ public class MedicoController {
         Medico medico = repository.atualizar(id, dados);
 
         return ResponseEntity.ok(medico);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deletarMedico(Long id) {
+        repository.deletar(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
