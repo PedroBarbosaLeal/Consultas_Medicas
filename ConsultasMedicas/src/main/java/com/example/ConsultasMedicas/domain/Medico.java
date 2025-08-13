@@ -1,6 +1,8 @@
 package com.example.ConsultasMedicas.domain;
 
 import com.example.ConsultasMedicas.domain.Enum.Especialidade;
+import com.example.ConsultasMedicas.dto.AtualizarMedico;
+import com.example.ConsultasMedicas.service.MedicoService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,9 @@ import lombok.Setter;
 @Table(name = "Medico")
 public class Medico {
 
+    public void atualizarMedico(AtualizarMedico medico){
+        this.especialidade = medico.especialidade();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_medico;
