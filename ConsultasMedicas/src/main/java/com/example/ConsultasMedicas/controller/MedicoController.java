@@ -1,6 +1,7 @@
 package com.example.ConsultasMedicas.controller;
 
 import com.example.ConsultasMedicas.domain.Medico;
+import com.example.ConsultasMedicas.dto.AtualizarMedico;
 import com.example.ConsultasMedicas.service.MedicoService;
 import com.example.ConsultasMedicas.service.PacienteService;
 import jakarta.validation.Valid;
@@ -34,8 +35,16 @@ public class MedicoController {
 
         return ResponseEntity.status(HttpStatus.OK).body(medico);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Medico> ListarMedicoId(@PathVariable Long id){
+    public ResponseEntity<Medico> ListarMedicoId(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarMedicoID(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> atualizarMedicos(Long id, AtualizarMedico dados) {
+        Medico medico = repository.atualizar(id, dados);
+
+        return ResponseEntity.ok(medico);
     }
 }
