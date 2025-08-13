@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/Medicos")
@@ -27,4 +28,10 @@ public class MedicoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Medico cadastrado: " + medico.getId_medico() + " " + medico);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Medico>> ListarMedicos() {
+        List<Medico> medico = repository.listarMedicos();
+
+        return ResponseEntity.status(HttpStatus.OK).body(medico);
+    }
 }
