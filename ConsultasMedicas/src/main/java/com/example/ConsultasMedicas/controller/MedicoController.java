@@ -34,4 +34,8 @@ public class MedicoController {
 
         return ResponseEntity.status(HttpStatus.OK).body(medico);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Medico> ListarMedicoId(@PathVariable Long id){
+        return ResponseEntity.ok(repository.listarMedicoID(id));
+    }
 }
