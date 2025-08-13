@@ -2,6 +2,7 @@ package com.example.ConsultasMedicas.service;
 
 import com.example.ConsultasMedicas.domain.Medico;
 import com.example.ConsultasMedicas.domain.repository.MedicoRepository;
+import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,11 @@ public class MedicoService {
     public List<Medico> listarMedicos(){
         return repository.findAll();
     }
+
+    public Medico listarMedicoID(long id){
+       return repository.findById(id).orElseThrow(() -> new EsseIdNaoExiste("Médico não encontrado"));
+    }
+
+
 
 }
