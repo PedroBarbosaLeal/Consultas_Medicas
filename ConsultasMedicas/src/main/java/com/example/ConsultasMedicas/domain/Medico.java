@@ -4,6 +4,7 @@ import com.example.ConsultasMedicas.domain.Enum.Especialidade;
 import com.example.ConsultasMedicas.dto.AtualizarMedico;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,7 @@ public class Medico {
     private String crm;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Especialidade Obrigatoria")
+    @NotNull(message = "Especialidade Obrigatoria")
     private Especialidade especialidade;
 
 }
