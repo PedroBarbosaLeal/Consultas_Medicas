@@ -45,7 +45,7 @@ public class PacienteController {
         return ResponseEntity.ok(paciente);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id]")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
         repository.deletar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
