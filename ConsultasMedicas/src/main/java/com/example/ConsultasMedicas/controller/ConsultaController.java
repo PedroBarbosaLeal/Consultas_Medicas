@@ -45,4 +45,11 @@ public class ConsultaController {
 
         return ResponseEntity.ok(consulta);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deletarConsulta(Long id) {
+        repository.deletarConsulta(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
