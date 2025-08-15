@@ -49,4 +49,13 @@ public class ConsultaService {
         consulta.AtualizarData(dados);
         return consulta;
     }
+
+    @Transactional
+    public void deletarConsulta(Long idConsulta) {
+        if (consultaRepository.existsById(idConsulta)) {
+            consultaRepository.deleteById(idConsulta);
+        } else {
+            throw new EsseIdNaoExiste("Esse ID de Consulta não existe");
+        }
+    }
 }
