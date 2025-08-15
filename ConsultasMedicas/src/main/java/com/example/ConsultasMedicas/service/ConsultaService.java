@@ -33,11 +33,13 @@ public class ConsultaService {
         return consultaRepository.save(consulta);
     }
 
-    public Paciente listarConsultaPorIdPaciente(Long idPaciente){
+    public Paciente listarConsultaPorIdPaciente(Long idPaciente) {
         return pacienteRepository.findById(idPaciente).orElseThrow(() -> new EsseIdNaoExiste("Esse ID de Paciente não existe"));
     }
 
-    public Medico listarConsultaPorIdMedico(Long idMedico){
+    public Medico listarConsultaPorIdMedico(Long idMedico) {
         return medicoRepository.findById(idMedico).orElseThrow(() -> new EsseIdNaoExiste("Esse ID de Medico não existe"));
     }
+
+
 }
