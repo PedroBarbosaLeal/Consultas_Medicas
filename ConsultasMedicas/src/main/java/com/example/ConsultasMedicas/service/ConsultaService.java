@@ -6,7 +6,9 @@ import com.example.ConsultasMedicas.domain.Paciente;
 import com.example.ConsultasMedicas.domain.repository.ConsultaRepository;
 import com.example.ConsultasMedicas.domain.repository.MedicoRepository;
 import com.example.ConsultasMedicas.domain.repository.PacienteRepository;
+import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
 import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,10 @@ public class ConsultaService {
         return medicoRepository.findById(idMedico).orElseThrow(() -> new EsseIdNaoExiste("Esse ID de Medico não existe"));
     }
 
-
+    @Transactional
+    public Consulta atualizarADataDaConsulta(Long idConsulta, AtualizarDataConsulta dados) {
+        Consulta consulta = consultaRepository.findById(idConsulta).orElseThrow(() -> new EsseIdNaoExiste("Essa consulta não existe"));
+        consulta.AtualizarData(dados);
+        return consulta;
+    }
 }

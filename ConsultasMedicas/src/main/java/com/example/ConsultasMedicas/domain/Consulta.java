@@ -1,5 +1,6 @@
 package com.example.ConsultasMedicas.domain;
 
+import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +19,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Consulta")
 public class Consulta {
+
+    public void AtualizarData(AtualizarDataConsulta dados){
+        this.data = dados.data();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
