@@ -40,15 +40,15 @@ public class MedicoController {
         return ResponseEntity.ok(repository.listarMedicoID(id));
     }
 
-    @PutMapping
-    public ResponseEntity<?> atualizarMedicos(Long id, AtualizarMedico dados) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarMedicos(@PathVariable Long id, @RequestBody AtualizarMedico dados) {
         Medico medico = repository.atualizar(id, dados);
 
         return ResponseEntity.ok(medico);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletarMedico(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarMedico(@PathVariable Long id) {
         repository.deletar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

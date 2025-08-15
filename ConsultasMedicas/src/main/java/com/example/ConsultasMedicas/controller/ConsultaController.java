@@ -39,15 +39,15 @@ public class ConsultaController {
         return ResponseEntity.ok(repository.listarConsultaPorIdPaciente(id));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Consulta> atualizarDataDaConsulta(@PathVariable Long id, AtualizarDataConsulta dataConsulta) {
         Consulta consulta = repository.atualizarADataDaConsulta(id, dataConsulta);
 
         return ResponseEntity.ok(consulta);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletarConsulta(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarConsulta(@PathVariable Long id) {
         repository.deletarConsulta(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
