@@ -1,4 +1,7 @@
 package com.example.ConsultasMedicas.domain.repository;
 
-public interface ConsultaRepository {
+import com.example.ConsultasMedicas.domain.Consulta;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ConsultaRepository extends JpaRepository<Consulta,Long> {
 }

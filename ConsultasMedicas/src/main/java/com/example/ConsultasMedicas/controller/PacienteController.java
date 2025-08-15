@@ -33,19 +33,20 @@ public class PacienteController {
         List<Paciente> paciente = repository.listarPaciente();
         return ResponseEntity.status(HttpStatus.OK).body(paciente);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> listarPorID(@PathVariable Long id){
+    public ResponseEntity<Paciente> listarPorID(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarPacienteId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Paciente> atualizar(@PathVariable Long id, @Valid @RequestBody AtualizarPaciente dados) {
-        Paciente paciente = repository.atualizar(id,dados);
+        Paciente paciente = repository.atualizar(id, dados);
         return ResponseEntity.ok(paciente);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deletar(@PathVariable  Long id){
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
         repository.deletar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
