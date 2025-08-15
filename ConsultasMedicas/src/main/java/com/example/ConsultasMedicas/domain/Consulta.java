@@ -1,5 +1,6 @@
 package com.example.ConsultasMedicas.domain;
 
+import com.example.ConsultasMedicas.domain.repository.ConsultaRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
