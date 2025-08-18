@@ -40,6 +40,16 @@ public class ConsultaController {
         return ResponseEntity.ok(repository.listarConsultaPorIdPaciente(id));
     }
 
+    @GetMapping("/DataAsc")
+    public ResponseEntity<List<Consulta>> listarConsultasPorDataAsc(){
+        return ResponseEntity.ok(repository.listarConsultaPorDataAsc());
+    }
+
+    @GetMapping("/DataDesc")
+    public ResponseEntity<List<Consulta>> listarConsultasPorDataDesc(){
+        return ResponseEntity.ok(repository.listarConsultaPorDataDesc());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Consulta> atualizarDataDaConsulta(@PathVariable Long id, @RequestBody @Valid AtualizarDataConsulta dataConsulta) {
         Consulta consulta = repository.atualizarADataDaConsulta(id, dataConsulta);

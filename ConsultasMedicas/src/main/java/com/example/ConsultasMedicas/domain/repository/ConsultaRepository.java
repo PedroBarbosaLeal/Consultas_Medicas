@@ -10,4 +10,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta,Long> {
    @Query("SELECT c FROM Consulta c WHERE c.medico.id_medico =:id")
    List<Consulta> findByMedicoId_medico(Long id);
    List<Consulta> findByPacienteId(Long pacienteId);
+
+   List<Consulta> findAllByOrderByDataAsc();
+   List<Consulta> findAllByOrderByDataDesc();
 }

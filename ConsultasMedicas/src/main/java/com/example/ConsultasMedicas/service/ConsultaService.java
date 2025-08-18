@@ -44,6 +44,14 @@ public class ConsultaService {
         return consultaRepository.findByMedicoId_medico(idMedico);
     }
 
+    public List<Consulta> listarConsultaPorDataAsc(){
+        return consultaRepository.findAllByOrderByDataAsc();
+    }
+
+    public List<Consulta> listarConsultaPorDataDesc(){
+        return consultaRepository.findAllByOrderByDataDesc();
+    }
+
     @Transactional
     public Consulta atualizarADataDaConsulta(Long idConsulta, AtualizarDataConsulta dados) {
         Consulta consulta = consultaRepository.findById(idConsulta).orElseThrow(() -> new EsseIdNaoExiste("Essa consulta não existe"));
