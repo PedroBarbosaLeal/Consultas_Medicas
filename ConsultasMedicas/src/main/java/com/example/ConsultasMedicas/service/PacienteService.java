@@ -28,9 +28,18 @@ public class PacienteService {
         return repository.findAll();
     }
 
+    public List<Paciente> listarPacientePorDataAsc() {
+        return repository.findAllByOrderByDataDeNascimentoAsc();
+    }
+
+    public List<Paciente> listarPacientePorDataDesc() {
+        return repository.findAllByOrderByDataDeNascimentoDesc();
+    }
+
     public Paciente listarPacienteId(Long id) {
         return repository.findById(id).orElseThrow(() -> new EsseIdNaoExiste("ID não encontrado"));
     }
+
 
     @Transactional
     public void deletar(Long id) {

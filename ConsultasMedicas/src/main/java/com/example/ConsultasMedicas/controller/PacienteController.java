@@ -33,7 +33,14 @@ public class PacienteController {
         List<Paciente> paciente = repository.listarPaciente();
         return ResponseEntity.status(HttpStatus.OK).body(paciente);
     }
-
+    @GetMapping("/DataAsc")
+    public ResponseEntity<List<Paciente>> listarPorDataNascimentoAsc(){
+        return ResponseEntity.ok(repository.listarPacientePorDataAsc());
+    }
+    @GetMapping("/DataDesc")
+    public ResponseEntity<List<Paciente>> listarPorDataNascimentoDesc(){
+        return ResponseEntity.ok(repository.listarPacientePorDataDesc());
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Paciente> listarPorID(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarPacienteId(id));
