@@ -36,10 +36,12 @@ public class Consulta {
     private String descricao;
 
     @ManyToOne
+    @NotNull(message = "É obrigatório ter um médico na consulta")
     @JoinColumn(name = "id_paciente")
     private Paciente paciente;
 
     @ManyToOne
+    @NotNull(message = "É obrigatório ter um paciente na consulta")
     @JoinColumn(name = "id_medico")
     private Medico medico;
 

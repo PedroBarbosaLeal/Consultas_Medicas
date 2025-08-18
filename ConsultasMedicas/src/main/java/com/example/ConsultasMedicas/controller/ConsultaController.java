@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/Consultas")
@@ -30,17 +31,17 @@ public class ConsultaController {
     }
 
     @GetMapping("/medicos/{id}")
-    public ResponseEntity<Medico> listarConsultasApartirDoMedico(@PathVariable Long id) {
+    public ResponseEntity <List<Consulta>> listarConsultasApartirDoMedico(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarConsultaPorIdMedico(id));
     }
 
     @GetMapping("/paciente/{id}")
-    public ResponseEntity<Paciente> listarConsultasApartirDoPaciente(@PathVariable Long id) {
+    public ResponseEntity<List<Consulta>> listarConsultasApartirDoPaciente(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarConsultaPorIdPaciente(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Consulta> atualizarDataDaConsulta(@PathVariable Long id, AtualizarDataConsulta dataConsulta) {
+    public ResponseEntity<Consulta> atualizarDataDaConsulta(@PathVariable Long id, @RequestBody @Valid AtualizarDataConsulta dataConsulta) {
         Consulta consulta = repository.atualizarADataDaConsulta(id, dataConsulta);
 
         return ResponseEntity.ok(consulta);

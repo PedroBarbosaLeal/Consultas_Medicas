@@ -41,7 +41,7 @@ public class MedicoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarMedicos(@PathVariable Long id, @RequestBody AtualizarMedico dados) {
+    public ResponseEntity<?> atualizarMedicos(@PathVariable Long id, @RequestBody @Valid AtualizarMedico dados) {
         Medico medico = repository.atualizar(id, dados);
 
         return ResponseEntity.ok(medico);
