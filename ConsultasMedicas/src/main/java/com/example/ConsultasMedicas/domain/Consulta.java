@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,14 +14,21 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "Consulta")
 public class Consulta {
 
+    public Consulta(Paciente paciente, Medico medico, LocalDateTime data, String descricao) {
+        this.paciente = paciente;
+        this.medico = medico;
+        this.data = data;
+        this.descricao = descricao;
+    }
+
     public void AtualizarData(AtualizarDataConsulta dados){
         this.data = dados.data();
     }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +51,14 @@ public class Consulta {
     @JoinColumn(name = "id_medico")
     private Medico medico;
 
+    @Override
+    public String toString() {
+        return "Consulta{" +
+                "id_consulta=" + id_consulta +
+                ", data=" + data +
+                ", descricao='" + descricao + '\'' +
+                ", paciente=" + paciente.getNome() +
+                ", medico=" + medico.getNome() +
+                '}';
+    }
 }

@@ -2,10 +2,7 @@ package com.example.ConsultasMedicas.domain;
 
 import com.example.ConsultasMedicas.dto.AtualizarPaciente;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +25,11 @@ public class Paciente {
     @Column(unique = true)
     @NotBlank(message = "Nome obritatório")
     private String nome;
+
+    @Column(unique = true)
+    @Email(message = "Email inválido")
+    @NotNull(message = "Email é obrigatório")
+    private String email;
 
     @Column(unique = true)
     @Size(max = 11,min = 11,message = "CPF invalido")

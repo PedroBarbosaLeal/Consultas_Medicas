@@ -1,10 +1,14 @@
 package com.example.ConsultasMedicas.controller;
 
 import com.example.ConsultasMedicas.domain.Consulta;
-import com.example.ConsultasMedicas.domain.Medico;
 import com.example.ConsultasMedicas.domain.Paciente;
+import com.example.ConsultasMedicas.domain.repository.PacienteRepository;
 import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
+import com.example.ConsultasMedicas.dto.DadosAgendamentoConsulta;
+import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import com.example.ConsultasMedicas.service.ConsultaService;
+import com.example.ConsultasMedicas.service.EmailService;
+import com.example.ConsultasMedicas.service.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +25,17 @@ public class ConsultaController {
     @Autowired
     private ConsultaService repository;
 
+    @Autowired
+    public EmailService email;
+
+    @Autowired
+    public PacienteRepository pacienteRepository;
+
+
     @PostMapping
-    public ResponseEntity<String> criarConsulta(@Valid @RequestBody Consulta consulta) {
-        Consulta consultaCriada = repository.criarConsulta(consulta);
+    public ResponseEntity<String> criarConsulta(@Valid @RequestBody DadosAgendamentoConsulta consulta) {
+
+        Consulta consultaCriada = repository.agendarConsulta(consulta);
 
         URI url = URI.create("/Consultas/" + consultaCriada.getId_consulta());
 
@@ -31,7 +43,7 @@ public class ConsultaController {
     }
 
     @GetMapping("/medicos/{id}")
-    public ResponseEntity <List<Consulta>> listarConsultasApartirDoMedico(@PathVariable Long id) {
+    public ResponseEntity<List<Consulta>> listarConsultasApartirDoMedico(@PathVariable Long id) {
         return ResponseEntity.ok(repository.listarConsultaPorIdMedico(id));
     }
 
@@ -41,12 +53,12 @@ public class ConsultaController {
     }
 
     @GetMapping("/DataAsc")
-    public ResponseEntity<List<Consulta>> listarConsultasPorDataAsc(){
+    public ResponseEntity<List<Consulta>> listarConsultasPorDataAsc() {
         return ResponseEntity.ok(repository.listarConsultaPorDataAsc());
     }
 
     @GetMapping("/DataDesc")
-    public ResponseEntity<List<Consulta>> listarConsultasPorDataDesc(){
+    public ResponseEntity<List<Consulta>> listarConsultasPorDataDesc() {
         return ResponseEntity.ok(repository.listarConsultaPorDataDesc());
     }
 
