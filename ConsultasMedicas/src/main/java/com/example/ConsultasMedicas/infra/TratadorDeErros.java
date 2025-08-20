@@ -1,5 +1,6 @@
 package com.example.ConsultasMedicas.infra;
 
+import com.example.ConsultasMedicas.infra.exceptions.DataDeConsultaDuplicada;
 import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,10 @@ public class TratadorDeErros {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity TratarDuplicidade(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity TratarDataDeConsultaDuplicada(DataDeConsultaDuplicada ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }

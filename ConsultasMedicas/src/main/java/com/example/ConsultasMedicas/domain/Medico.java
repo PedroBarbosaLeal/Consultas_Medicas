@@ -24,7 +24,7 @@ public class Medico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_medico;
+    private Long id;
 
     @Column(unique = true)
     @NotBlank(message = "Nome Obrigatorio")

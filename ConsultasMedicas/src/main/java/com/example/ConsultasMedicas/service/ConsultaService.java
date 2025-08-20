@@ -8,6 +8,7 @@ import com.example.ConsultasMedicas.domain.repository.MedicoRepository;
 import com.example.ConsultasMedicas.domain.repository.PacienteRepository;
 import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
 import com.example.ConsultasMedicas.dto.DadosAgendamentoConsulta;
+import com.example.ConsultasMedicas.infra.exceptions.DataDeConsultaDuplicada;
 import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,6 @@ public class ConsultaService {
 
         Consulta novaConsulta = new Consulta(paciente, medico, consulta.data(), consulta.descricao());
 
-        Consulta consultaSalva = consultaRepository.save(novaConsulta);
 
         DateTimeFormatter formatar = DateTimeFormatter.ofPattern(
                 "dd 'de' MMMM 'de' yyyy, 'às' HH:mm",
@@ -63,14 +63,20 @@ public class ConsultaService {
                 + "Abaixo estão os detalhes do seu agendamento:\n\n"
                 + "* Médico(a): " + medico.getNome() + "\n"
                 + "* Data: " + dataFormatada + "\n"
-                + "* Descrição: " + consultaSalva.getDescricao() + "\n\n"
+                + "* Descrição: " + novaConsulta.getDescricao() + "\n\n"
                 + "Aguardamos você.\n\n"
                 + "Atenciosamente,\n"
                 + "Equipe de Agendamento";
 
         emailService.enviarEmailTexto(paciente.getEmail(), assunto, mensagem);
 
-        return consultaSalva;
+        if (consultaRepository.existsByMedicoIdAndData(medico.getId(), novaConsulta.getData())) {
+            throw new DataDeConsultaDuplicada("O agendamento falhou porque o horário já está ocupado");
+        } else {
+            Consulta consultaSalva = consultaRepository.save(novaConsulta);
+            return consultaSalva;
+        }
+
     }
 
     public List<Consulta> listarConsultaPorIdPaciente(Long idPaciente) {
@@ -79,7 +85,7 @@ public class ConsultaService {
     }
 
     public List<Consulta> listarConsultaPorIdMedico(Long idMedico) {
-        return consultaRepository.findByMedicoId_medico(idMedico);
+        return consultaRepository.findByMedicoId(idMedico);
     }
 
     public List<Consulta> listarConsultaPorDataAsc() {

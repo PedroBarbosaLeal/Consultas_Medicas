@@ -23,9 +23,9 @@ public class MedicoController {
     public ResponseEntity<String> cadastrar(@Valid @RequestBody Medico dados) {
         Medico medico = repository.cadastrar(dados);
 
-        URI url = URI.create("/Medicos/" + medico.getId_medico());
+        URI url = URI.create("/Medicos/" + medico.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Medico cadastrado: " + medico.getId_medico() + " " + medico);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Medico cadastrado: " + medico.getId() + " " + medico);
     }
 
     @GetMapping
