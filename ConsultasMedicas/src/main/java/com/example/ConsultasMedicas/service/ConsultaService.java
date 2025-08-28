@@ -1,6 +1,7 @@
 package com.example.ConsultasMedicas.service;
 
 import com.example.ConsultasMedicas.domain.Consulta;
+import com.example.ConsultasMedicas.domain.Enum.TipoPagamento;
 import com.example.ConsultasMedicas.domain.Medico;
 import com.example.ConsultasMedicas.domain.Paciente;
 import com.example.ConsultasMedicas.domain.repository.ConsultaRepository;
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -56,6 +58,11 @@ public class ConsultaService {
 
         String dataFormatada = consulta.data().format(formatar);
 
+        novaConsulta.setTipoPagamento(consulta.tipoPagamento());
+        double valor = medico.getEspecialidade().getValor();
+        double valorComDesconto = novaConsulta.getTipoPagamento().aplicarDesconto(valor);
+        novaConsulta.setValorConsulta(BigDecimal.valueOf(valorComDesconto));
+
         String assunto = "Confirmação de Agendamento de Consulta";
 
         String mensagem = "Olá, " + paciente.getNome() + "!\n\n"
@@ -63,6 +70,8 @@ public class ConsultaService {
                 + "Abaixo estão os detalhes do seu agendamento:\n\n"
                 + "* Médico(a): " + medico.getNome() + "\n"
                 + "* Data: " + dataFormatada + "\n"
+                + "* Tipo de pagamento: " + novaConsulta.getTipoPagamento() + "\n"
+                + "* Valor do pagamento: " + "R$"+novaConsulta.getValorConsulta() + "\n"
                 + "* Descrição: " + novaConsulta.getDescricao() + "\n\n"
                 + "Aguardamos você.\n\n"
                 + "Atenciosamente,\n"

@@ -1,5 +1,6 @@
 package com.example.ConsultasMedicas.domain;
 
+import com.example.ConsultasMedicas.domain.Enum.TipoPagamento;
 import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -46,10 +48,27 @@ public class Consulta {
     @JoinColumn(name = "id_paciente")
     private Paciente paciente;
 
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "É necessário escolher uma forma de pagamento para a consulta!")
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'PIX'")
+    private TipoPagamento tipoPagamento;
+
+
+    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "NUMERIC(10, 2) default 0.00")
+    private BigDecimal valorConsulta;
+
     @ManyToOne
     @NotNull(message = "É obrigatório ter um paciente na consulta")
     @JoinColumn(name = "id_medico")
     private Medico medico;
+
+    public BigDecimal getValorConsulta() {
+        return valorConsulta;
+    }
+    public void setValorConsulta(BigDecimal valorConsulta) {
+        this.valorConsulta = valorConsulta;
+    }
 
     @Override
     public String toString() {
