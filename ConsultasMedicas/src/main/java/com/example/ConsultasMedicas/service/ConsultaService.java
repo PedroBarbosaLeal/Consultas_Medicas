@@ -1,7 +1,5 @@
 package com.example.ConsultasMedicas.service;
-
 import com.example.ConsultasMedicas.domain.Consulta;
-import com.example.ConsultasMedicas.domain.Enum.TipoPagamento;
 import com.example.ConsultasMedicas.domain.Medico;
 import com.example.ConsultasMedicas.domain.Paciente;
 import com.example.ConsultasMedicas.domain.repository.ConsultaRepository;
@@ -14,11 +12,8 @@ import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class ConsultaService {
@@ -35,7 +30,6 @@ public class ConsultaService {
     @Autowired
     private EmailService emailService;
 
-
     public ConsultaService(ConsultaRepository consultaRepository, PacienteRepository pacienteRepository, MedicoRepository medicoRepository) {
         this.consultaRepository = consultaRepository;
         this.pacienteRepository = pacienteRepository;
@@ -45,39 +39,16 @@ public class ConsultaService {
     public Consulta agendarConsulta(DadosAgendamentoConsulta consulta) {
 
         Paciente paciente = pacienteRepository.findById(consulta.idPaciente()).orElseThrow(() -> new EsseIdNaoExiste("Paciente não encontrado!"));
-
         Medico medico = medicoRepository.findById(consulta.idMedico()).orElseThrow(() -> new EsseIdNaoExiste("Medico não encontrado!"));
 
         Consulta novaConsulta = new Consulta(paciente, medico, consulta.data(), consulta.descricao());
 
-
-        DateTimeFormatter formatar = DateTimeFormatter.ofPattern(
-                "dd 'de' MMMM 'de' yyyy, 'às' HH:mm",
-                new Locale("pt", "BR")
-        );
-
-        String dataFormatada = consulta.data().format(formatar);
-
         novaConsulta.setTipoPagamento(consulta.tipoPagamento());
-        double valor = medico.getEspecialidade().getValor();
-        double valorComDesconto = novaConsulta.getTipoPagamento().aplicarDesconto(valor);
-        novaConsulta.setValorConsulta(BigDecimal.valueOf(valorComDesconto));
 
-        String assunto = "Confirmação de Agendamento de Consulta";
+        calcularValorDaConsulta(medico,novaConsulta);
 
-        String mensagem = "Olá, " + paciente.getNome() + "!\n\n"
-                + "Sua consulta foi agendada com sucesso. Agradecemos a sua preferência.\n\n"
-                + "Abaixo estão os detalhes do seu agendamento:\n\n"
-                + "* Médico(a): " + medico.getNome() + "\n"
-                + "* Data: " + dataFormatada + "\n"
-                + "* Tipo de pagamento: " + novaConsulta.getTipoPagamento() + "\n"
-                + "* Valor do pagamento: " + "R$"+novaConsulta.getValorConsulta() + "\n"
-                + "* Descrição: " + novaConsulta.getDescricao() + "\n\n"
-                + "Aguardamos você.\n\n"
-                + "Atenciosamente,\n"
-                + "Equipe de Agendamento";
-
-        emailService.enviarEmailTexto(paciente.getEmail(), assunto, mensagem);
+        String msn = emailService.formatarMensagem(paciente, medico, novaConsulta);
+        emailService.enviarEmailTexto(paciente.getNome(), msn);
 
         if (consultaRepository.existsByMedicoIdAndData(medico.getId(), novaConsulta.getData())) {
             throw new DataDeConsultaDuplicada("O agendamento falhou porque o horário já está ocupado");
@@ -86,6 +57,13 @@ public class ConsultaService {
             return consultaSalva;
         }
 
+    }
+
+    private void calcularValorDaConsulta(Medico medico, Consulta consulta){
+        double valor = medico.getEspecialidade().getValor();
+        double valorComDesconto = consulta.getTipoPagamento().aplicarDesconto(valor);
+
+        consulta.setValorConsulta(BigDecimal.valueOf(valorComDesconto));
     }
 
     public List<Consulta> listarConsultaPorIdPaciente(Long idPaciente) {

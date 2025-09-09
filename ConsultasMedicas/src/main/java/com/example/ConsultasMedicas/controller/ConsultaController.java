@@ -1,14 +1,11 @@
 package com.example.ConsultasMedicas.controller;
 
 import com.example.ConsultasMedicas.domain.Consulta;
-import com.example.ConsultasMedicas.domain.Paciente;
 import com.example.ConsultasMedicas.domain.repository.PacienteRepository;
 import com.example.ConsultasMedicas.dto.AtualizarDataConsulta;
 import com.example.ConsultasMedicas.dto.DadosAgendamentoConsulta;
-import com.example.ConsultasMedicas.infra.exceptions.EsseIdNaoExiste;
 import com.example.ConsultasMedicas.service.ConsultaService;
 import com.example.ConsultasMedicas.service.EmailService;
-import com.example.ConsultasMedicas.service.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
